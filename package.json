@@ -1,0 +1,14 @@
+{
+  "name": "jeststart",
+  "version": "1.0.0",
+  "description": "Change me",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "George Sanger",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.1.0"
+  }
+}
