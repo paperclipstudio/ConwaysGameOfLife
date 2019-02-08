@@ -54,10 +54,8 @@ describe("Can evolve following the GoL rules.", () => {
     c.set(1,0);
     c.set(1,1);
     c.set(1,2);
-    c.print();
 
     c.next();
-    c.print();
     expect(c.cells[1][0]).toBe(false);
     expect(c.cells[0][0]).toBe(false);
     expect(c.cells[1][0]).toBe(false);
