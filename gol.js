@@ -12,7 +12,14 @@ let alphabet = {
   j:[[0,1],[1,1],[0,2],[1,2],[1,3],[1,4]],
   k:[[1,0],[1,1],[2,2],[1,3],[1,4],[1,5]],
   l:[[1,0],[2,0],[1,1],[2,1],[1,2],[2,2],[1,3],[2,3],[1,4],[2,4]],
+  m:[[1,0],[1,4],[1,5]],
+  n:[[1,1],[1,2],[1,3],[1,4],[1,5]],
+  o:[[1,1],[1,2],[1,3]],
+  p:[[1,1],[1,3],[2,3],[1,4],[2,4],[1,5],[2,5]],
   r:[[1,1],[2,3],[1,4],[1,5]],
+  s:[[1,1],[2,1],[0,3],[1,3],[0,4],[1,4]],
+  t:[[0,1],[0,2],[0,3],[0,4],[2,1],[2,2],[2,3],[2,4],[0,5],[2,5]],
+  u:[[1,0],[1,1],[1,2],[1,3],[1,4]],
 
 }
 
@@ -92,13 +99,15 @@ function Grid(height, width) {
       for ( let x=0; x<this.width; x++) {
         if (this.cells[x][y]) {
           rowAsString += String.fromCharCode(9608);
+          rowAsString += String.fromCharCode(9608);
         } else {
-          rowAsString += ' ';
+          rowAsString += '  ';
         };
       };
       gridAsString += (rowAsString + "|" + "\n");
     };
-    for (let i = 0; i < this.width + 4; i++){
+    gridAsString += "    "
+    for (let i = 0; i < this.width; i++){
       gridAsString += i.toString().padStart(2);
     };
     console.log(gridAsString);
@@ -131,16 +140,20 @@ function Grid(height, width) {
   this.word =function(word="rebecca",offX=0,offY=0) {
     let nextLetter = "";
     for (var i = 0; i < word.length; i++) {
-      if (i*4+3-offX > this.width) {
-        console.log("overflow");
-        break;
-      }
       nextLetter = word[i];
+
+      if (nextLetter === ' ') {continue};
+
       if (nextLetter === '\n') {
-        console.log("newline!");
-        offY += 11;offX -= i;
+        offY += 11;
+        offX -= i*4;
         continue;
       };
+
+      if ((i*4)+3+offX > this.width) {
+        break;
+      }
+
       this.letter(word[i],i*4+offX,offY);
 }
   }
