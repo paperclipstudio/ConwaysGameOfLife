@@ -1,13 +1,11 @@
 let Grid = require("./gol.js")
 
-a = new Grid(50,25);
-
-a.word("rebecca",0,5);
-a.print();
+a = new Grid(25,50);
+console.clear();
+a.word("hello\nrebecca",3,1);
 setInterval(() => {
-
-  console.clear()
+  console.clear();
   a.print();
   a.next();
 
-}, 500)
+}, 200)

@@ -3,9 +3,15 @@ let alphabet = {
   a:[[1,1],[1,2],[1,4],[1,5]],
   b:[[1,1],[1,3]],
   c:[[1,1],[2,1],[1,2],[2,2],[1,3],[2,3]],
-  d:[[1,1],[1,2],[3,0]],
+  d:[[1,1],[2,0],[1,2],[1,3],[1,4]],
   e:[[1,1],[2,1],[1,3],[2,3]],
   f:[[1,1],[2,1],[2,2],[1,3],[2,3],[1,4],[2,4]],
+  g:[[1,1],[0,3],[1,3],[1,4]],
+  h:[[1,0],[1,1],[1,3],[1,4],[1,5]],
+  i:[[0,1],[0,2],[0,3],[0,4],[2,1],[2,2],[2,3],[2,4]],
+  j:[[0,1],[1,1],[0,2],[1,2],[1,3],[1,4]],
+  k:[[1,0],[1,1],[2,2],[1,3],[1,4],[1,5]],
+  l:[[1,0],[2,0],[1,1],[2,1],[1,2],[2,2],[1,3],[2,3],[1,4],[2,4]],
   r:[[1,1],[2,3],[1,4],[1,5]],
 
 }
@@ -32,15 +38,15 @@ function Grid(height, width) {
 
 // Fill Cells with a dead array.
   this.cells = [];
-  for (let  i=0;i<height;i++) {
+  for (let  i=0;i<this.width;i++) {
     this.cells.push([]);
-    for (let  j=0;j<height;j++) {
+    for (let  j=0;j<this.height;j++) {
       this.cells[i].push(false);
     };
   };
 
   this.set = function(x,y) { this.cells[x][y] = true;  };
-  this.unset = function(x,y) { this.cells[x][y] = false;};
+  this.unset = function(x,y) {this.cells[x][y] = false;};
 
 // Count
   this.count = function (x,y) {
@@ -79,18 +85,21 @@ function Grid(height, width) {
 
   // Print
   this.print = function () {
-    let rowAsString = '  ';
+    let rowAsString = '';
     let gridAsString = '';
-    for ( let y=0; y<this.width; y++) {
-      rowAsString = '';
-      for ( let x=0; x<this.height; x++) {
+    for ( let y=0; y<this.height; y++) {
+      rowAsString = y.toString().padStart(3) + "|";
+      for ( let x=0; x<this.width; x++) {
         if (this.cells[x][y]) {
           rowAsString += String.fromCharCode(9608);
         } else {
           rowAsString += ' ';
         };
       };
-      gridAsString += (rowAsString + "\n");
+      gridAsString += (rowAsString + "|" + "\n");
+    };
+    for (let i = 0; i < this.width + 4; i++){
+      gridAsString += i.toString().padStart(2);
     };
     console.log(gridAsString);
   };
@@ -112,7 +121,7 @@ function Grid(height, width) {
       }
     };
     let boundUnset = this.unset.bind(this)
-    let unsetArray = alphabet[char]||[[-1,-1]]
+    let unsetArray = alphabet[char]||[[0,0]]
     unsetArray.forEach(
       function(entry) {
         boundUnset(entry[0]+offX,entry[1]+offY)
@@ -120,8 +129,18 @@ function Grid(height, width) {
     )
   };
   this.word =function(word="rebecca",offX=0,offY=0) {
+    let nextLetter = "";
     for (var i = 0; i < word.length; i++) {
-      if (i*4+3 > this.width) { break}
+      if (i*4+3-offX > this.width) {
+        console.log("overflow");
+        break;
+      }
+      nextLetter = word[i];
+      if (nextLetter === '\n') {
+        console.log("newline!");
+        offY += 11;offX -= i;
+        continue;
+      };
       this.letter(word[i],i*4+offX,offY);
 }
   }
